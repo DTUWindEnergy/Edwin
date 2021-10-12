@@ -33,7 +33,6 @@ setup(name='edwin',
       author_email='juru@dtu.dk',
       license='MIT',
       packages=find_packages(),
-      },
       install_requires=[
           'matplotlib',  # for plotting
           'numpy',  # for numerical calculations
