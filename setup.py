@@ -9,7 +9,7 @@ import pkg_resources
 repo = os.path.dirname(__file__)
 try:
     from git_utils import write_vers
-    version = write_vers(vers_file='py_wake/__init__.py', repo=repo, skip_chars=1)
+    version = write_vers(vers_file='edwin/__init__.py', repo=repo, skip_chars=1)
 except Exception:
     version = '999'
 
