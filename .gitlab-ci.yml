@@ -6,7 +6,7 @@ check_code_style:
     test
   script:
   - pip install -e .
-  - pycodestyle --ignore=E501,W504,E741 py_wake
+  - pycodestyle --ignore=E501,W504,E741 edwin
   tags:  
   - python
 
