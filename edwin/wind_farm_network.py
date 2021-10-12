@@ -1,70 +1,49 @@
-from abc import ABC, abstractmethod
+import matplotlib.pyplot as plt
 
 
 class WindFarmNetwork():
-    def __init__(self, method, geometry, financial, electrical, contraints):
+    def __init__(self, method, geometry, financial, electrical, constraints):
         self.method = method
+        self.geometry = geometry
+        self.financial = financial
+        self.electrical = electrical
+        self.constraints = constraints
 
     def design(self, settings):
         self.settings = settings
-        return self.method._design(**settings)
+        return self.method._design(self.geometry, self.financial, self.electrical,
+                                   self.constraints, **settings)
 
-class Method(ABC):
-    def __init__(self, **kwargs):
-        return
-    
-    @abstractmethod
-    def _design(**settings):
-        '''
+    def plot(self):
+        x = self.geometry['turbine_coordinates']['x']
+        y = self.geometry['turbine_coordinates']['y']
+        xss = self.geometry['sub_station_coordinates']['x']
+        yss = self.geometry['sub_station_coordinates']['y']
+        plt.plot(x, y, '.')
+        plt.plot(xss, yss, 'or', label='Sub station')
+        plt.legend()
 
-        Parameters
-        ----------
-        **settings : dict
-            Configuration of algorithm.
-
-        Returns
-        -------
-        dictionary of connections.
-
-        '''
-
-class HeuristicMethod(Method):
-    def __init__(self, **kwargs):
-        Method.__init__(self)
-
-    def _design(self, **settings):
-        return {'hello from': 'HeuristicMethod'}
-    
-class MetaHeuristicMethod(Method):
-    def __init__(self, **kwargs):
-        Method.__init__(self)
-
-    def _design(self, **settings):
-        return {'hello from': 'MetaHeuristicMethod'}
-    
-class GlobalMethod(Method):
-    def __init__(self, **kwargs):
-        Method.__init__(self)
-
-    def _design(self, **settings):
-        return {'hello from': 'GlobalMethod'}
 
 def main():
     if __name__ == '__main__':
-        hm = MetaHeuristicMethod()
-        geometry = {'turbine_coordinates': {'x': [1],
-                                            'y': [1],},
-                    'sub_station_coordinates': {'x': [2],
-                                                'y': [2],}}
+        from edwin.method import MetaHeuristicMethod
+        method = MetaHeuristicMethod()
+        geometry = {'turbine_coordinates': {'x': [1, 1, 1, 2, 2, 2, 3, 3, 3],
+                                            'y': [1, 2, 3, 2, 3, 4, 3, 4, 5], },
+                    'sub_station_coordinates': {'x': [2.5],
+                                                'y': [3.5], }}
         financial = {}
         electrical = {}
-        contraints = {'crossing': False,
+        constraints = {'crossing': False,
                        'tree': False,
                        'thermal capacity': False,
                        'number of main feeders': False}
         settings = {}
-        wfn = WindFarmNetwork(method=hm, geometry=geometry, financial=financial,
-                              electrical=electrical, contraints=contraints)
+        wfn = WindFarmNetwork(method=method, geometry=geometry, financial=financial,
+                              electrical=electrical, constraints=constraints)
         result_dict = wfn.design(settings)
         print(result_dict)
+        wfn.plot()
+
+
 main()
