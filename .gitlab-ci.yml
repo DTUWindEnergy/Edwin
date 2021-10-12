@@ -1,0 +1,47 @@
+image: continuumio/anaconda3
+
+# ===== Check code style =====
+check_code_style: 
+  stage:  
+    test
+  script:
+  - pip install -e .
+  - pycodestyle --ignore=E501,W504,E741 py_wake
+  tags:  
+  - python
+
+# ===== TEST EDWIN debian=====
+test_EDWIN:  
+  stage:  
+    test
+  script:
+  - pip install -e .[test] --timeout 60
+  - pytest
+  tags: 
+  - ci-ubuntu
+
+# ===== TEST EDWIN on Windows =====
+test_EDWIN_windows:  
+  stage: 
+    test
+  script:  
+  - conda init powershell
+  - "if (test-path $PROFILE.CurrentUserAllHosts) { & $PROFILE.CurrentUserAllHosts}"
+  - conda activate py36_openmdao26
+  - pip install -e .[test]
+  - pytest --cov-report term-missing:skip-covered --cov=py_wake --cov-config .coveragerc
+  tags:  
+  - ANMH_old
+
+pypi:
+  stage:  
+    deploy
+  only:
+    - tags
+  script:
+    - python3 -m pip install -U setuptools wheel
+    - python3 setup.py sdist bdist_wheel
+    - python3 -m pip install -U twine
+    - twine upload dist/* -u $TWINE_USERNAME -p $TWINE_PASSWORD
+  tags:  
+    - python
