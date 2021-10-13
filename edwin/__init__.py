@@ -1,3 +1,3 @@
 # 'filled_by_setup.py'
-__version__ = '4fbf778c0f6c9c019f2bb08835d3e6596a380f1'
-__release__ = '4fbf778c0f6c9c019f2bb08835d3e6596a380f1'
+__version__ = 'c6c857252e379ba76e90ff3f5bf58f9efe828ee'
+__release__ = 'c6c857252e379ba76e90ff3f5bf58f9efe828ee'
