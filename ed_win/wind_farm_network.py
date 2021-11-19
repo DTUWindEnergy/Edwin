@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from edwin.collection_system import collection_system
-from edwin.c_mst_cables import plot_network
+from ed_win.collection_system import collection_system
+from ed_win.c_mst_cables import plot_network
 import pandas as pd
 import numpy as np
 
@@ -61,7 +61,7 @@ class WindFarmNetwork():
         return cost, state
 
     def plot(self):
-        if self.state is not None:
+        if self.state is None:
             self.design()
         plot_network(self.x, self.y, self.cables, self.T)
 

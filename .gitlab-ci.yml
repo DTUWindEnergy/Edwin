@@ -6,7 +6,7 @@ check_code_style:
     test
   script:
   - pip install -e .
-  - pycodestyle --ignore=E501,W504,E741 edwin
+  - pycodestyle --ignore=E501,W504,E741 ed_win
   tags:  
   - python
 
@@ -29,9 +29,28 @@ test_EDWIN_windows:
   - "if (test-path $PROFILE.CurrentUserAllHosts) { & $PROFILE.CurrentUserAllHosts}"
   - conda activate py36_openmdao26
   - pip install -e .[test]
-  - pytest --cov-report term-missing:skip-covered --cov=py_wake --cov-config .coveragerc
+  - pytest --cov-report term-missing:skip-covered --cov=ed_win --cov-config .coveragerc
   tags:  
   - ANMH_old
+
+
+# ===== BUILD DOCS AND PUSH TO PUBLIC WEBSITE =====
+pages:  
+  stage:  
+    deploy
+  script:  
+  - pip install -e .
+  - cd docs; make html
+  - cd ../; mv docs/build/html public/
+  artifacts:  
+    paths:
+    - public
+  only:  
+  - master
+  - /^test_doc.*/ 
+  tags:  
+  - python
+
 
 pypi:
   stage:  

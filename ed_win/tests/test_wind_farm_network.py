@@ -1,5 +1,5 @@
 import numpy as np
-from edwin.wind_farm_network import WindFarmNetwork, HeuristicDriver
+from ed_win.wind_farm_network import WindFarmNetwork, HeuristicDriver
 import numpy.testing as npt
 
 initial_layout = dict(x=np.array([0., 2000., 4000., 6000.,
