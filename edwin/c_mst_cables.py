@@ -8,11 +8,11 @@ Created on Thu Jun  4 08:07:37 2020
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
-from c_mst import capacitated_spanning_tree
 import time
+from edwin.c_mst import capacitated_spanning_tree
 
 
-def cmst_cables(X=[], Y=[], T=[], Cables=[], plot=True):
+def cmst_cables(X=[], Y=[], T=[], Cables=[], plot=False):
     """
     Assigns cables to the obtained C-MST in previous stage
 
@@ -63,25 +63,29 @@ def cmst_cables(X=[], Y=[], T=[], Cables=[], plot=True):
         for k in range(T_d.shape[0]):
             T_d[k, 4] = (T_d[k, 2] / 1000) * Cables[T_d.astype(int)[k, 3], 2]
     if plot:
-        plt.figure()
-        plt.plot(X[1:], Y[1:], 'r+', markersize=10, label='Turbines')
-        plt.plot(X[0], Y[0], 'ro', markersize=10, label='OSS')
-        for i in range(len(X)):
-            plt.text(X[i] + 50, Y[i] + 50, str(i + 1))
-        colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'bg', 'gr', 'rc', 'cm']
-        for i in range(Cables.shape[0]):
-            index = T_d[:, 3] == i
-            if index.any():
-                n1xs = X[T_d[index, 0].astype(int) - 1].ravel().T
-                n2xs = X[T_d[index, 1].astype(int) - 1].ravel().T
-                n1ys = Y[T_d[index, 0].astype(int) - 1].ravel().T
-                n2ys = Y[T_d[index, 1].astype(int) - 1].ravel().T
-                xs = np.vstack([n1xs, n2xs])
-                ys = np.vstack([n1ys, n2ys])
-                plt.plot(xs, ys, '{}'.format(colors[i]))
-                plt.plot([], [], '{}'.format(colors[i]), label='Cable: {} mm2'.format(Cables[i, 0]))
-        plt.legend()
+        plot_network(X, Y, Cables, T_d)
     return T_d
+
+
+def plot_network(X, Y, Cables, T_d):
+    plt.figure()
+    plt.plot(X[1:], Y[1:], 'r+', markersize=10, label='Turbines')
+    plt.plot(X[0], Y[0], 'ro', markersize=10, label='OSS')
+    for i in range(len(X)):
+        plt.text(X[i] + 50, Y[i] + 50, str(i + 1))
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'bg', 'gr', 'rc', 'cm']
+    for i in range(Cables.shape[0]):
+        index = T_d[:, 3] == i
+        if index.any():
+            n1xs = X[T_d[index, 0].astype(int) - 1].ravel().T
+            n2xs = X[T_d[index, 1].astype(int) - 1].ravel().T
+            n1ys = Y[T_d[index, 0].astype(int) - 1].ravel().T
+            n2ys = Y[T_d[index, 1].astype(int) - 1].ravel().T
+            xs = np.vstack([n1xs, n2xs])
+            ys = np.vstack([n1ys, n2ys])
+            plt.plot(xs, ys, '{}'.format(colors[i]))
+            plt.plot([], [], '{}'.format(colors[i]), label='Cable: {} mm2'.format(Cables[i, 0]))
+    plt.legend()
 
 
 if __name__ == "__main__":
@@ -102,7 +106,7 @@ if __name__ == "__main__":
     print("Feasibility: {feasible1}".format(feasible1=feasible))
 
     if feasible:
-        T_cables = cmst_cables(X, Y, T, Cables)
+        T_cables = cmst_cables(X, Y, T, Cables, plot=True)
         print("The total cost of the system is {value:.2f} Euros".format(value=T_cables[:, -1].sum()))
     elapsed = time.time() - t
     print("The total time is {timep: .2f} s".format(timep=elapsed))
