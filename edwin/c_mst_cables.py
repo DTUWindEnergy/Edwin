@@ -8,8 +8,8 @@ Created on Thu Jun  4 08:07:37 2020
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
-from c_mst import capacitated_spanning_tree
 import time
+from edwin.c_mst import capacitated_spanning_tree
 
 
 def cmst_cables(X=[], Y=[], T=[], Cables=[], plot=False):
@@ -66,6 +66,7 @@ def cmst_cables(X=[], Y=[], T=[], Cables=[], plot=False):
         plot_network(X, Y, Cables, T_d)
     return T_d
 
+
 def plot_network(X, Y, Cables, T_d):
     plt.figure()
     plt.plot(X[1:], Y[1:], 'r+', markersize=10, label='Turbines')
@@ -85,7 +86,6 @@ def plot_network(X, Y, Cables, T_d):
             plt.plot(xs, ys, '{}'.format(colors[i]))
             plt.plot([], [], '{}'.format(colors[i]), label='Cable: {} mm2'.format(Cables[i, 0]))
     plt.legend()
-    
 
 
 if __name__ == "__main__":

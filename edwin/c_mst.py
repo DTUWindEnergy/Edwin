@@ -5,8 +5,8 @@ Created on Thu May 28 08:12:54 2020
 @author: juru
 """
 import numpy as np
-from intersection_checker import intersection_checker
 import matplotlib.pyplot as plt
+from edwin.intersection_checker import intersection_checker
 
 
 def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, max_it=20000):

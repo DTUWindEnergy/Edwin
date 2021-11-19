@@ -6,7 +6,7 @@ Created on Fri May 29 10:08:54 2020
 """
 
 import numpy as np
-from two_lines_intersecting import two_lines_intersecting
+from edwin.two_lines_intersecting import two_lines_intersecting
 
 
 def intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, Inters_const):

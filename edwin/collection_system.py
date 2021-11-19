@@ -5,8 +5,8 @@ Created on Mon Jun 22 10:59:47 2020
 @author: juru
 """
 import numpy as np
-from c_mst import capacitated_spanning_tree
-from c_mst_cables import cmst_cables
+from edwin.c_mst import capacitated_spanning_tree
+from edwin.c_mst_cables import cmst_cables
 
 
 def collection_system(X=[], Y=[], option=3, Inters_const=True, max_it=20000, Cables=[], plot=False):
