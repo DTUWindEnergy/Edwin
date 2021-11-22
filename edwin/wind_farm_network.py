@@ -44,8 +44,10 @@ class WindFarmNetwork():
         setattr(self.driver, 'wfn', self)
 
     def design(self, x=None, y=None, **kwargs):
-        x = x or self.initial_layout['x']
-        y = y or self.initial_layout['y']
+        if isinstance(x, type(None)):
+            x = self.initial_layout['x']
+        if isinstance(y, type(None)):
+            y = self.initial_layout['y']
         self.x = x
         self.y = y
         T, cost = self.driver.run(x, y)
