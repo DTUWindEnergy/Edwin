@@ -38,8 +38,13 @@ test_EDWIN_windows:
 pages:  
   stage:  
     deploy
-  script:  
-  - pip install -e .
+  script:
+  - apt-get update
+  - apt-get -y install make
+  - pip install --upgrade pip
+  - pip install sphinx --upgrade
+  - pip install nbsphinx --upgrade
+  - pip install -e .[test]
   - cd docs; make html
   - cd ../; mv docs/build/html public/
   artifacts:  
