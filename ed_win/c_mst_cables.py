@@ -9,7 +9,7 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import time
-from edwin.c_mst import capacitated_spanning_tree
+from ed_win.c_mst import capacitated_spanning_tree
 
 
 def cmst_cables(X=[], Y=[], T=[], Cables=[], plot=False):

@@ -9,7 +9,7 @@ import pkg_resources
 repo = os.path.dirname(__file__)
 try:
     from git_utils import write_vers
-    version = write_vers(vers_file='edwin/__init__.py', repo=repo, skip_chars=1)
+    version = write_vers(vers_file='ed_win/__init__.py', repo=repo, skip_chars=1)
 except Exception:
     version = '999'
 
@@ -24,11 +24,11 @@ except ImportError:
     def read_md(f): return open(f, 'r').read()
 
 
-setup(name='edwin',
+setup(name='ed_win',
       version=version,
       description='EDWIN an optimization and design package for electrical networks in windfarms',
       long_description=read_md('README.md'),
-      url='https://gitlab.windenergy.dtu.dk/TOPFARM/edwin',
+      url='https://gitlab.windenergy.dtu.dk/TOPFARM/EDWIN',
       author='DTU Wind Energy',
       author_email='juru@dtu.dk',
       license='MIT',
