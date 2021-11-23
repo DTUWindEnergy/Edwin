@@ -46,7 +46,7 @@ pages:
     paths:
     - public
   only:  
-  - master
+  - main
   - /^test_doc.*/ 
   tags:  
   - python
