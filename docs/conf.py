@@ -17,8 +17,8 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(r"C:\Users\mikf\Anaconda3\envs\topfarm\Library\bin")
 
-from py_wake import __version__
-from py_wake import __release__
+from ed_win import __version__
+from ed_win import __release__
 
 # -- Project information -----------------------------------------------------
 
