@@ -32,6 +32,19 @@ class HeuristicDriver(Driver):
 
 class WindFarmNetwork():
     def __init__(self, initial_layout, driver=HeuristicDriver(), cables=[]):
+        """WindFarmNetwork object
+
+        Parameters
+        ----------
+        initial_layout : array-like
+            The shape of the array is (i, j), where i is 2 and j is the number of  turbines + 1.
+            i=1 is x and i=2 is y. j=0 is the coordinates of the offshore sub station and j=1: are the turbine coordinates.
+        driver : Driver
+            Driver object
+        cables : array-like
+            The shape of the array is (n, m), where n is the number of available cables and m is 3.
+            m=1 is cross-section, m=2 is the allowed number of connected WTs and m=3 is the price/km of the cable
+        """
         self.initial_layout = initial_layout
         self.driver = driver
         self.cables = cables
@@ -44,6 +57,22 @@ class WindFarmNetwork():
         setattr(self.driver, 'wfn', self)
 
     def design(self, x=None, y=None, **kwargs):
+        """designs or optimizes the electrical wind farm network
+
+        Parameters
+        ----------
+        x : array-like
+            concatenated list of sub station and turbine x-coordinates
+        y : array-like
+            concatenated list of sub station and turbine y-coordinates
+
+        Returns
+        -------
+        cost : float
+            The cost of the electrical network
+        state : DataFrame
+            The current network tree with the columns f{self.columns}
+        """
         if isinstance(x, type(None)):
             x = self.initial_layout['x']
         if isinstance(y, type(None)):
