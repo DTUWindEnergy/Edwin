@@ -1,0 +1,7 @@
+[run]
+omit = 
+	ed_win/tests/*
+	ed_win/examples/data/*
+    tmp/*
+[report]
+fail_under = 10
