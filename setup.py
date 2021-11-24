@@ -39,4 +39,11 @@ setup(name='ed_win',
           'xarray',  # for WaspGridSite data storage
           'scipy',  # constraints
       ],
+      extras_require={
+          'test': [
+              'pytest',  # for testing
+              'pytest-cov',  # for calculating coverage
+              'sphinx',  # generating documentation
+              'sphinx_rtd_theme',  # docs theme
+          ]},
       zip_safe=True)
