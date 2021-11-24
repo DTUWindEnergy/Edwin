@@ -3,6 +3,16 @@ Edwin classes
 =================
 
 
+.. inheritance-diagram:: ed_win.HeuristicDriver
+    :top-classes: ed_win.Driver
+    :parts: 1
+
+
+- `WindFarmNetwork`_: base class
+- `Driver`_: base class
+- `HeuristicDriver`_: Driver using heuristic algorithm
+
+
 WindFarmNetwork
 -----------------
 
