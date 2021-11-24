@@ -20,5 +20,5 @@ EDWIN: Electrical network Design for WINdfarms
 
 ## Documentation, installation, etc:
 
-[https://topfarm.pages.windenergy.dtu.dk/EDWIN](https://topfarm.pages.windenergy.dtu.dk/EDWIN).
+[https://topfarm.pages.windenergy.dtu.dk/edwin](https://topfarm.pages.windenergy.dtu.dk/edwin).
 
