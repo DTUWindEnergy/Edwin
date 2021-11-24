@@ -17,7 +17,7 @@ Source code repository (and issue tracker):
 License:
     MIT_
 
-.. _MIT: https://gitlab.windenergy.dtu.dk/TOPFARM/Edwin/blob/master/LICENSE
+.. _MIT: https://gitlab.windenergy.dtu.dk/TOPFARM/Edwin/blob/main/LICENSE
 
 
 Contents:

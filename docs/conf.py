@@ -17,8 +17,8 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(r"C:\Users\mikf\Anaconda3\envs\topfarm\Library\bin")
 
-from py_wake import __version__
-from py_wake import __release__
+from ed_win import __version__
+from ed_win import __release__
 
 # -- Project information -----------------------------------------------------
 
@@ -137,8 +137,8 @@ nbsphinx_prolog = r"""
     .. nbinfo::
 
 
-        :raw-html:`<a href="https://colab.research.google.com/github/DTUWindEnergy/EDWIN/blob/master/{{ docname }}"><img alt="Open and run in Colab (interactive)" src="https://colab.research.google.com/assets/colab-badge.svg" style="vertical-align:text-bottom"></a>
-        <a href="https://gitlab.windenergy.dtu.dk/TOPFARM/EDWIN/-/tree/master/{{ docname }}"><img alt="Edit on Gitlab" src="https://img.shields.io/badge/Edit%20on-Gitlab-blue?style=flat&logo=gitlab" style="vertical-align:text-bottom"></a>`
+        :raw-html:`<a href="https://colab.research.google.com/github/DTUWindEnergy/EDWIN/blob/main/{{ docname }}"><img alt="Open and run in Colab (interactive)" src="https://colab.research.google.com/assets/colab-badge.svg" style="vertical-align:text-bottom"></a>
+        <a href="https://gitlab.windenergy.dtu.dk/TOPFARM/EDWIN/-/tree/main/{{ docname }}"><img alt="Edit on Gitlab" src="https://img.shields.io/badge/Edit%20on-Gitlab-blue?style=flat&logo=gitlab" style="vertical-align:text-bottom"></a>`
 
 """
 
