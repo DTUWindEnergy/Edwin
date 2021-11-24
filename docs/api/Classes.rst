@@ -16,7 +16,7 @@ Edwin classes
 WindFarmNetwork
 -----------------
 
-.. autoclass:: edwin.wind_farm_network.WindFarmNetwork
+.. autoclass:: ed_win.wind_farm_network.WindFarmNetwork
     :members:
        
     .. autosummary::
@@ -29,7 +29,7 @@ WindFarmNetwork
 Driver
 -----------------
 
-.. autoclass:: edwin.wind_farm_network.Driver
+.. autoclass:: ed_win.wind_farm_network.Driver
 
        
     .. automethod:: __init__
@@ -39,7 +39,7 @@ Driver
 HeuristicDriver
 ------------------
 
-.. autoclass:: edwin.wind_farm_network.HeuristicDriver
+.. autoclass:: ed_win.wind_farm_network.HeuristicDriver
 
     .. automethod:: __init__
     
