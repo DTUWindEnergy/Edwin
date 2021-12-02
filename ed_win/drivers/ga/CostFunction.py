@@ -25,11 +25,11 @@ def cost_function(pop, W, WindFarm, Penalization, Cable, n_wt, CoordX, CoordY):
     G.add_nodes_from([x + 1 for x in range(n_wt)])
     G.add_edges_from([tuple(edge) for edge in edges])
 #
-    #nx.draw_networkx(G, with_labels = True, node_color ='green')
+    # nx.draw_networkx(G, with_labels = True, node_color ='green')
     connected_status = nx.is_connected(G)
     edges_count = G.number_of_edges()
     edges_count_status = n_wt - 1 == edges_count
-    #nx.draw_networkx(G, with_labels = True, node_color ='green')
+    # nx.draw_networkx(G, with_labels = True, node_color ='green')
     # =max(Cable.Capacities)
     T = np.array([x for x in nx.dfs_edges(G, source=1)]).astype(int)
     z = (W[pop, -1]).sum() * max(Cable.Price)
@@ -65,7 +65,7 @@ def cost_function(pop, W, WindFarm, Penalization, Cable, n_wt, CoordX, CoordY):
         if not capacity_status:
             z += Penalization.NodesFeeder * (np.max(accumulator[T[:, 0] == 1]) - Cable.MaxCap)
     if connected_status and edges_count_status and capacity_status:
-      # %% ASSIGN: (i) LENGTH TO EACH ACTIVE EDGE (ii) CABLE TYPE TO EACH ACTIVE EDGE (iii) COST TO EACH ACTIVE EDGE
+        # %% ASSIGN: (i) LENGTH TO EACH ACTIVE EDGE (ii) CABLE TYPE TO EACH ACTIVE EDGE (iii) COST TO EACH ACTIVE EDGE
         T = np.append(T, np.zeros((accumulator.shape[0], 3)), axis=1)
         for k in range(T.shape[0]):
             aux1 = np.argwhere((W[:, 0] == T[k, 0]) & (W[:, 1] == T[k, 1]))
@@ -81,7 +81,7 @@ def cost_function(pop, W, WindFarm, Penalization, Cable, n_wt, CoordX, CoordY):
             T[k, 3] = l
         for k in range(T.shape[0]):
             T[k, 4] = (T[k, 2] / 1000) * Cable.Price[T.astype(int)[k, 3]]
-      # %% LINES CROSSING OUTER ROUTINE EMBEDDED WITH INNER ROUTINE
+        # %% LINES CROSSING OUTER ROUTINE EMBEDDED WITH INNER ROUTINE
         # plt.figure(0)
         N1 = np.vstack((CoordX[edges.astype(int)[:, 0] - 1], CoordY[edges.astype(int)[:, 0] - 1])).T
         N2 = np.vstack((CoordX[edges.astype(int)[:, 1] - 1], CoordY[edges.astype(int)[:, 1] - 1])).T
@@ -92,21 +92,21 @@ def cost_function(pop, W, WindFarm, Penalization, Cable, n_wt, CoordX, CoordY):
                 # print(k+l+1)
                 line1 = np.array([N1[k], N2[k]])
                 line2 = np.array([N1[k + l + 1], N2[k + l + 1]])
-                #x1 = [line1[0][0],line1[1][0]]
-                #y1 = [line1[0][1],line1[1][1]]
-                #plt.plot(x1, y1, label = "line 1")
-                #x2 = [line2[0][0],line2[1][0]]
-                #y2 = [line2[0][1],line2[1][1]]
-                #plt.plot(x2, y2, label = "line 2")
+                # x1 = [line1[0][0],line1[1][0]]
+                # y1 = [line1[0][1],line1[1][1]]
+                # plt.plot(x1, y1, label = "line 1")
+                # x2 = [line2[0][0],line2[1][0]]
+                # y2 = [line2[0][1],line2[1][1]]
+                # plt.plot(x2, y2, label = "line 2")
                 checker += two_lines_intersecting(line1, line2)
         if checker == 0:
             non_crossing_status = True
-      # %% DETERMINE NUMBER OF MAIN FEEDERS
+        # %% DETERMINE NUMBER OF MAIN FEEDERS
         excess_feeders = 0
         feeders_status = sum(T[:, 0] == 1) <= WindFarm.Feeders
         if not feeders_status:
             excess_feeders = sum(T[:, 0] == 1) - WindFarm.Feeders
-      # %% CALCULATE ECONOMIC VALUE OF THE SOLUTION GIVEN THE PENALTIES  4 AND 5 (z)
+        # %% CALCULATE ECONOMIC VALUE OF THE SOLUTION GIVEN THE PENALTIES  4 AND 5 (z)
         z = (Penalization.Crossing * checker * (1 - non_crossing_status)) + (Penalization.Feeders * excess_feeders * (1 - feeders_status)) + (sum(T[:, 4]))
     # %%  Forming the array of constraints
     cons = np.array([connected_status, edges_count_status, capacity_status, non_crossing_status, feeders_status])
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     pop = np.array([1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0]).astype(bool)
     # pop=np.array([0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1,0,1,0,1,0,0,0,0,0]).astype(bool)
     print(cost_function(pop, W, WindFarm, Penalization, Cable))
-#pop = np.array([0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,1,1,0,1,1,1,0,1,0])
+# pop = np.array([0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,1,1,0,1,1,1,0,1,0])
 # W = np.array([1,2,2943,40792056433,
 # 1,3,2696.56881408162,
 # 1,4,2502.57234543653,
@@ -166,21 +166,21 @@ if __name__ == '__main__':
 # 18,20,1233.42707859998,
 # 18,21,1262.80000000000,
 # 19,21,1233.42707859998])
-#from data import get_edges, get_n_wt
+# from data import get_edges, get_n_wt
 # %% EXTERNAL INPUTS FOR THE
-#Edges = get_edges()
+# Edges = get_edges()
 # class WindFarmObject():
 #    def __init__(self, P=3.6):
 #        self.P = P
 #        self.GV = 33
 #        self.F = 50
 #        self.Feeders = 4
-#WindFarm = WindFarmObject()
+# WindFarm = WindFarmObject()
 # WindFarm.VarSize = Edges.shape[0]  # Complete number of edges (variables)
 # class PenalizationObject():
 #    def __init__(self):
 #        pass
-#n_wt = int(get_n_wt())
+# n_wt = int(get_n_wt())
 #
 # class CableObject():
 #    def __init__(self):
@@ -213,13 +213,13 @@ if __name__ == '__main__':
 # Cable.Vbase = WindFarm.GV                                     #Grid voltage (kV) (22, 33, 45, 66, 132, 220)
 # Cable.Freq = WindFarm.F                                       #Frequency (Hz)
 #
-#Cable.ID =Cable.ID[Cable.Available]                                       #
+# Cable.ID =Cable.ID[Cable.Available]                                       #
 # Cable.CrossSection = Cable.CrossSection[Cable.Available]                   #Cable cross section (mm2)(Only cables considered for opt)
-#Cable.NomCurrent= Cable.NomCurrent[Cable.Available]
+# Cable.NomCurrent= Cable.NomCurrent[Cable.Available]
 # Cable.Sn= Cable.Sn[Cable.Available]                                       #Cable apparent power capacity [Only cables considered for opt)
 # Cable.Capacities = np.floor(Cable.Sn/Cable.Sbase)                               #Maximum amount of WT supported for each cable
 # Cable.MaxCap = np.max(Cable.Capacities)                                             #Maximum amount of WT supported from all cables
-#Penalization = PenalizationObject()
+# Penalization = PenalizationObject()
 # Penalization.BaseRough = (np.max(Edges[:,2])*(n_wt-1))*np.max(Cable.Price)   # Find base penalization according to the number of edges and the total length of them.
 # Penalization.Base = np.floor(np.log10(Penalization.BaseRough))                       # Find order of magnitude of base penalization.
 # Penalization.ConnectedComponents    = 10**(Penalization.Base+5)                 # Base penalization: Total connecitvity constraint

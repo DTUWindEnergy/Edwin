@@ -5,18 +5,18 @@ Created on Mon Jun 22 10:59:47 2020
 @author: juru
 """
 import numpy as np
-from ed_win.c_mst import capacitated_spanning_tree
-from ed_win.c_mst_cables import cmst_cables
+from ed_win.drivers.tsh.c_mst import capacitated_spanning_tree
+from ed_win.drivers.tsh.c_mst_cables import cmst_cables
 
 
-def collection_system(X=[], Y=[], option=3, Inters_const=True, max_it=20000, Cables=[], plot=False):
+def collection_system(X=[], Y=[], option=3, crossing_contr=True, max_it=20000, Cables=[], plot=False):
     UL = max(Cables[:, 1])
-    T, feasible = capacitated_spanning_tree(X, Y, option, UL, Inters_const)
-    T_cables_cost = ((T[:, -1].sum()) / 1000) * Cables[-1, 2]
-    T_cables = np.concatenate((T, np.full((T.shape[0], 2), Cables.shape[1] - 1)), axis=1)
-    if feasible:
-        T_cables = cmst_cables(X, Y, T, Cables, plot)
-        T_cables_cost = T_cables[:, -1].sum()
+    T, feasible = capacitated_spanning_tree(X, Y, option, UL, crossing_contr)
+    if crossing_contr and not feasible:
+        T, feasible = capacitated_spanning_tree(X, Y, option, UL, False)
+        print('The two step heuristic algorithm did not obtain a fasible soltion without crossings. Consider using the Planrize module.')
+    T_cables = cmst_cables(X, Y, T, Cables, plot)
+    T_cables_cost = T_cables[:, -1].sum()
     return T_cables, T_cables_cost
 
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
     option = 3
     # UL=5
-    Inters_const = True
+    crossing_contr = False
     Cables = np.array([[500, 3, 100000], [800, 5, 150000], [1000, 10, 250000]])
 
-    T, amount = collection_system(X, Y, option, Inters_const, Cables=Cables, plot=True)
+    T, amount = collection_system(X, Y, option, crossing_contr, Cables=Cables, plot=True)

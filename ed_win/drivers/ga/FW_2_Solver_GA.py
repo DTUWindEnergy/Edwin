@@ -110,9 +110,9 @@ class ECSGA():  # Electrical Collection System Genetic Algorithm
         # %% EXTERNAL INPUTS FOR THE GA
         # Cable.Available = Settings.CableAvailable                                #Cables considered for optimization (structure)
 
-        #Cable.ID =Cable.ID[Cable.Available]                                       #
+        # Cable.ID =Cable.ID[Cable.Available]                                       #
         # Cable.CrossSection = Cable.CrossSection[Cable.Available]                   #Cable cross section (mm2)(Only cables considered for opt)
-        #Cable.NomCurrent= Cable.NomCurrent[Cable.Available]
+        # Cable.NomCurrent= Cable.NomCurrent[Cable.Available]
         # Cable.Sn= Cable.Sn[Cable.Available]                                       #Cable apparent power capacity [Only cables considered for opt)
         # Cable.Capacities = np.floor(Cable.Sn/Cable.Sbase)                               #Maximum amount of WT supported for each cable
         # Cable.Price=Cable.Price[Cable.Available]

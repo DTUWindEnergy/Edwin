@@ -5,8 +5,8 @@ Created on Thu May 28 08:12:54 2020
 @author: juru
 """
 import numpy as np
+from intersection_checker import intersection_checker
 import matplotlib.pyplot as plt
-from ed_win.intersection_checker import intersection_checker
 
 
 def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, max_it=20000):
@@ -39,6 +39,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
             edges_tot[cont_edges, 1] = j + 1  # Second element is second node
             edges_tot[cont_edges, 2] = np.sqrt((X[j] - X[i])**2 + (Y[j] - Y[i])**2)  # Third element is the length of the edge
             cont_edges += 1
+    edges_tot_o = np.copy(edges_tot[:half])
     CP = [x for x in range(n_wt_oss)]  # Initializing component position list for each node. A component goes from 0 until n_wt_oss-1. Fixed length.
     address_nodes = [-1 for x in range(n_wt_oss)]  # Initializing address list for each node. It indicates the root node for each node in the tree and in subtrees from OSS. Fixed length.
     address_nodes[0] = 0
@@ -216,7 +217,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
     # %%  Next code is when the potential edge is not connected directly to the OSS (node==1) and it does not create loops. Two cases: One of the components has as element node=1 or none of them.
         if (flag1) and (flag2) and (flag3) and (flag4):
             if (1 in C[CP[node1 - 1]]) or (1 in C[CP[node2 - 1]]):  # One of the components has an element '1' (OSS)
-                flag3 = False  # line 284 .m file
+                flag3 == False  # line 284 .m file
                 if (1 in C[CP[node1 - 1]]):  # The component of node1 includes the root 1
                     if address_nodes[node1 - 1] == 1:  # The node 1 is connected directly to the OSS (element '1')
                         tot_nodes = np.where(address_nodes == node1)[0].size + S[CP[node2 - 1]] + 1
@@ -417,7 +418,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
     T[:, 1] = edges_tot[np.where(mst_edges)[0], 1]
     T[:, 2] = edges_tot[np.where(mst_edges)[0], 2]
 # %%  Running the function
-    return T, feasible
+    return edges_tot_o, T, feasible
 
 
 if __name__ == "__main__":

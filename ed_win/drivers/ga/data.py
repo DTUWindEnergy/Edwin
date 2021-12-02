@@ -26,7 +26,7 @@ class Mat2Py():
 #        CoordY = mat['WindFarm'].ravel()[0].Coord.ravel()[0].y
 #    return n_wt, Edges, CoordX, CoordY
 #
-#n_wt, Edges, CoordX, CoordY = mat2py()
+# n_wt, Edges, CoordX, CoordY = mat2py()
 
 
 #
@@ -252,9 +252,9 @@ class Mat2Py():
 #     CoordY=np.array([10000,9426,8278,10574,9426,8278,7130,11722,10574,9426,8278,11722,10574,9426,8278,12870,11722,10574,9426,11722,10574])
 #     return CoordX,CoordY
 #
-#CoordX,CoordY = get_coordinates()
-#data = Mat2Py()
-#CoordX2, CoordY2 = data.CoordX, data.CoordY
+# CoordX,CoordY = get_coordinates()
+# data = Mat2Py()
+# CoordX2, CoordY2 = data.CoordX, data.CoordY
 #
-#Edges = get_edges()
-#Edges2 = data.Edges
+# Edges = get_edges()
+# Edges2 = data.Edges

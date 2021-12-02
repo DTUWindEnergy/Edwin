@@ -1,125 +1,7 @@
-from abc import ABC, abstractmethod
-from ed_win.collection_system import collection_system
-from ed_win.c_mst_cables import plot_network
-# from ed_win.repair import repair
+from ed_win.plot import plot_network
+from ed_win.drivers.drivers import TwoStepHeuristicDriver, NCC, Planarize
 import pandas as pd
 import numpy as np
-
-
-class Driver(ABC):
-    def __init__(self, **kwargs):
-        '''
-        '''
-
-    def run(self, x=None, y=None, T=None):
-        '''
-        x : array-like
-            concatenated array of sub-station and turbine x-coordinates
-        y : array-like
-            concatenated array of sub-station and turbine y-coordinates
-        T : array-like
-            solution tree
-
-        '''
-        T, cables_cost = self._run(x=x, y=y, T=T)
-        return T, cables_cost
-
-    @abstractmethod
-    def _run():
-        '''
-
-        '''
-
-
-class Repair(Driver):
-    def __init__(self, **kwargs):
-        self.supports_constraints = False
-        self.supports_primary = False
-        self.supports_secondary = True
-
-        Driver.__init__(self, **kwargs)
-
-    def _run(self, T, **kwargs):
-        print('I will repair T')
-        cost = self.wfn.cost
-        return T, cost
-
-
-class Refine(Driver):
-    def __init__(self, **kwargs):
-        self.supports_constraints = False
-        self.supports_primary = False
-        self.supports_secondary = True
-
-        Driver.__init__(self, **kwargs)
-
-    def _run(self, T, **kwargs):
-        print('I will refine T')
-        cost = self.wfn.cost
-        return T, cost
-
-
-class TwoStepHeuristicDriver(Driver):
-    def __init__(self, option=3, Inters_const=True, max_it=20000, **kwargs):
-        self.supports_constraints = False
-        self.supports_primary = True
-        self.supports_secondary = False
-
-        self.option = option
-        self.Inters_const = Inters_const
-        self.max_it = max_it
-        Driver.__init__(self, **kwargs)
-
-    def _run(self, x, y, **kwargs):
-        T, cables_cost = collection_system(x,
-                                           y,
-                                           self.option,
-                                           self.Inters_const,
-                                           self.max_it,
-                                           self.wfn.cables)
-        return T, cables_cost
-
-
-class GlobalDriver(Driver):
-    def __init__(self, option=3, Inters_const=True, max_it=20000, **kwargs):
-        self.supports_constraints = True
-        self.supports_primary = True
-        self.supports_secondary = True
-
-        self.option = option
-        self.Inters_const = Inters_const
-        self.max_it = max_it
-        Driver.__init__(self, **kwargs)
-
-    def _run(self, x, y, T, **kwargs):
-        T, cables_cost = collection_system(x,
-                                           y,
-                                           self.option,
-                                           self.Inters_const,
-                                           self.max_it,
-                                           self.wfn.cables)
-        return T, cables_cost
-
-
-class GeneticAlgorithmDriver(Driver):
-    def __init__(self, option=3, Inters_const=True, max_it=20000, **kwargs):
-        self.supports_constraints = True
-        self.supports_primary = True
-        self.supports_secondary = True
-
-        self.option = option
-        self.Inters_const = Inters_const
-        self.max_it = max_it
-        Driver.__init__(self, **kwargs)
-
-    def _run(self, x, y, T, **kwargs):
-        T, cables_cost = collection_system(x,
-                                           y,
-                                           self.option,
-                                           self.Inters_const,
-                                           self.max_it,
-                                           self.wfn.cables)
-        return T, cables_cost
 
 
 class WindFarmNetwork():
@@ -146,7 +28,7 @@ class WindFarmNetwork():
         self.cables = cables
         self.state = None
         self.T = T
-        self.columns = ['from_node', 'to_node', 'cable_length', 'cable_type', 'cable_cost']
+        self.columns = ['from_node', 'to_node', 'cable_length', 'cable_type', 'nwt_connected', 'cable_cost']
         if isinstance(sequence, type(None)):
             sequence = range(len(drivers))
         self.sequence = sequence
@@ -184,9 +66,9 @@ class WindFarmNetwork():
         for n, driver_no in enumerate(self.sequence):
             driver = self.drivers[driver_no]
             if n == 0 and not driver.supports_primary:
-                raise Exception(driver + ' cannot be the first driver in a sequence')
+                raise Exception(f'{driver} cannot be the first driver in a sequence')
             elif n > 0 and not driver.supports_secondary:
-                raise Exception(driver + ' cannot be used as a secondary driver')
+                raise Exception(f'{driver} cannot be used as a secondary driver')
             T, cost = driver.run(x=x, y=y, T=T)
             self.T = T
             self.cost = cost
@@ -200,7 +82,8 @@ class WindFarmNetwork():
         tree_table = pd.DataFrame(self.T, columns=self.columns)
         tree_table = tree_table.astype({'from_node': int,
                                         'to_node': int,
-                                        'cable_type': int})
+                                        'cable_type': int,
+                                        'nwt_connected': int})
         return tree_table
 
     def get_edges(self, x, y):
@@ -244,8 +127,8 @@ def main():
         cables = np.array([[500, 3, 100000], [800, 5, 150000], [1000, 10, 250000]])
         wfn = WindFarmNetwork(turbine_positions=turbine_positions,
                               substation_positions=substation_positions,
-                              drivers=[TwoStepHeuristicDriver(**settings), Refine(), Repair()],
-                              sequence=[0, 2, 1],
+                              drivers=[TwoStepHeuristicDriver(**settings), Planarize()],
+                              # sequence=[0, 2, 1],
                               cables=cables)
         cost, state = wfn.design()
         wfn.plot()
