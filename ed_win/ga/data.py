@@ -7,16 +7,17 @@ Created on Thu Jan  9 09:59:03 2020
 import scipy.io
 import numpy as np
 
+
 class Mat2Py():
     def __init__(self, filename='../Diagonal20.mat', filetype='struct'):
-        if filetype=='struct':
-            mat = scipy.io.loadmat(filename,struct_as_record=False)
+        if filetype == 'struct':
+            mat = scipy.io.loadmat(filename, struct_as_record=False)
             self.n_wt = int(mat['WindFarm'].ravel()[0].Nwt[0][0])
             self.Edges = np.array(mat['WindFarm'].ravel()[0].Edges)
             self.CoordX = np.array(mat['WindFarm'].ravel()[0].Coord.ravel()[0].x.ravel())
             self.CoordY = np.array(mat['WindFarm'].ravel()[0].Coord.ravel()[0].y.ravel())
 
-#def mat2py(filename='../Diagonal20.mat', filetype='struct'):
+# def mat2py(filename='../Diagonal20.mat', filetype='struct'):
 #    if filetype=='struct':
 #        mat = scipy.io.loadmat(filename,struct_as_record=False)
 #        n_wt = mat['WindFarm'].ravel()[0].Nwt[0][0]
@@ -32,9 +33,9 @@ class Mat2Py():
 #
 #
 #
-#def get_n_wt():
+# def get_n_wt():
 #    return np.array([[21]])
-#def get_edges():
+# def get_edges():
 #    Edges = np.array([[1.00000000e+00, 2.00000000e+00, 2.94340792e+03],
 #        [1.00000000e+00, 3.00000000e+00, 2.69656881e+03],
 #        [1.00000000e+00, 4.00000000e+00, 2.50257235e+03],
@@ -244,17 +245,16 @@ class Mat2Py():
 #        [1.80000000e+01, 2.10000000e+01, 1.26280000e+03],
 #        [1.90000000e+01, 2.00000000e+01, 2.32416283e+03],
 #        [1.90000000e+01, 2.10000000e+01, 1.23342708e+03],
-#        [2.00000000e+01, 2.10000000e+01, 1.40600711e+03]])    
+#        [2.00000000e+01, 2.10000000e+01, 1.40600711e+03]])
 #    return Edges
-#def get_coordinates():
+# def get_coordinates():
 #     CoordX=np.array([10000,7113.10301762588,7924.86160242803,7564.14443282372,8375.90301762588,9187.66160242803,9999.42018723019,8015.18584802156,8826.94443282372,9638.70301762588,10450.4616024280,9277.98584802156,10089.7444328237,10901.5030176259,11713.2616024280,9729.02726321941,10540.7858480216,11352.5444328237,12164.3030176259,11803.5858480216,12615.3444328237])
 #     CoordY=np.array([10000,9426,8278,10574,9426,8278,7130,11722,10574,9426,8278,11722,10574,9426,8278,12870,11722,10574,9426,11722,10574])
 #     return CoordX,CoordY
-#       
+#
 #CoordX,CoordY = get_coordinates()
 #data = Mat2Py()
 #CoordX2, CoordY2 = data.CoordX, data.CoordY
-#    
+#
 #Edges = get_edges()
 #Edges2 = data.Edges
-      
