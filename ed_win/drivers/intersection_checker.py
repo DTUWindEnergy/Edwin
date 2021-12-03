@@ -9,11 +9,11 @@ import numpy as np
 from ed_win.drivers.two_lines_intersecting import two_lines_intersecting
 
 
-def intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, Inters_const):
+def intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, crossing_constraint):
     current_edges = np.where(mst_edges)[0]
     current_edges_size = current_edges.size
     intersection = False
-    if Inters_const:
+    if crossing_constraint:
         if current_edges_size == 0:
             pass
         else:

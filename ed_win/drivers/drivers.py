@@ -59,13 +59,13 @@ class NCC(Driver):
 
 
 class TwoStepHeuristicDriver(Driver):
-    def __init__(self, option=3, Inters_const=True, max_it=20000, **kwargs):
+    def __init__(self, option=3, crossing_constraint=True, max_it=20000, **kwargs):
         self.supports_constraints = False
         self.supports_primary = True
         self.supports_secondary = False
 
         self.option = option
-        self.Inters_const = Inters_const
+        self.crossing_constraint = crossing_constraint
         self.max_it = max_it
         Driver.__init__(self, **kwargs)
 
@@ -73,20 +73,20 @@ class TwoStepHeuristicDriver(Driver):
         T, cables_cost = collection_system(x,
                                            y,
                                            self.option,
-                                           self.Inters_const,
+                                           self.crossing_constraint,
                                            self.max_it,
                                            self.wfn.cables)
         return T, cables_cost
 
 
 class GlobalDriver(Driver):
-    def __init__(self, option=3, Inters_const=True, max_it=20000, **kwargs):
+    def __init__(self, option=3, crossing_constraint=True, max_it=20000, **kwargs):
         self.supports_constraints = True
         self.supports_primary = True
         self.supports_secondary = True
 
         self.option = option
-        self.Inters_const = Inters_const
+        self.crossing_constraint = crossing_constraint
         self.max_it = max_it
         Driver.__init__(self, **kwargs)
 
@@ -94,20 +94,20 @@ class GlobalDriver(Driver):
         T, cables_cost = collection_system(x,
                                            y,
                                            self.option,
-                                           self.Inters_const,
+                                           self.crossing_constraint,
                                            self.max_it,
                                            self.wfn.cables)
         return T, cables_cost
 
 
 class GeneticAlgorithmDriver(Driver):
-    def __init__(self, option=3, Inters_const=True, max_it=20000, **kwargs):
+    def __init__(self, option=3, crossing_constraint=True, max_it=20000, **kwargs):
         self.supports_constraints = True
         self.supports_primary = True
         self.supports_secondary = True
 
         self.option = option
-        self.Inters_const = Inters_const
+        self.crossing_constraint = crossing_constraint
         self.max_it = max_it
         Driver.__init__(self, **kwargs)
 
@@ -115,7 +115,7 @@ class GeneticAlgorithmDriver(Driver):
         T, cables_cost = collection_system(x,
                                            y,
                                            self.option,
-                                           self.Inters_const,
+                                           self.crossing_constraint,
                                            self.max_it,
                                            self.wfn.cables)
         return T, cables_cost

@@ -9,8 +9,8 @@ from c_mst import capacitated_spanning_tree
 from c_mst_cables import cmst_cables
 
 
-def collection_system(X=[], Y=[], option=3, UL=100, Inters_const=True, max_it=20000, Cables=[], plot=False):
-    edges, T, feasible = capacitated_spanning_tree(X, Y, option, UL, Inters_const)
+def collection_system(X=[], Y=[], option=3, UL=100, crossing_constraint=True, max_it=20000, Cables=[], plot=False):
+    edges, T, feasible = capacitated_spanning_tree(X, Y, option, UL, crossing_constraint)
     T_cables = cmst_cables(X, Y, T, Cables, plot)
     T_cables_cost = T_cables[:, -1].sum()
     return edges, T_cables, T_cables_cost
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     option = 3
     UL = 5
-    Inters_const = False
+    crossing_constraint = False
     Cables = np.array([[500, 3, 100000], [800, 5, 150000], [1000, 10, 250000]])
 
-    T, amount = collection_system(X, Y, option, UL, Inters_const, Cables=Cables, plot=True)
+    T, amount = collection_system(X, Y, option, UL, crossing_constraint, Cables=Cables, plot=True)

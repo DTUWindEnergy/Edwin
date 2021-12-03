@@ -9,10 +9,10 @@ from ed_win.drivers.tsh.c_mst import capacitated_spanning_tree
 from ed_win.drivers.tsh.c_mst_cables import cmst_cables
 
 
-def collection_system(X=[], Y=[], option=3, crossing_contr=True, max_it=20000, Cables=[], plot=False):
+def collection_system(X=[], Y=[], option=3, crossing_constraint=True, max_it=20000, Cables=[], plot=False):
     UL = max(Cables[:, 1])
-    T, feasible = capacitated_spanning_tree(X, Y, option, UL, crossing_contr)
-    if crossing_contr and not feasible:
+    T, feasible = capacitated_spanning_tree(X, Y, option, UL, crossing_constraint)
+    if crossing_constraint and not feasible:
         T, feasible = capacitated_spanning_tree(X, Y, option, UL, False)
         print('The two step heuristic algorithm did not obtain a fasible soltion without crossings. Consider using the Planrize module.')
     T_cables = cmst_cables(X, Y, T, Cables, plot)

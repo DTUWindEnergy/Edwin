@@ -10,7 +10,7 @@ from ed_win.drivers.intersection_checker import intersection_checker
 from ed_win.drivers.utils import half_edges
 
 
-def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, max_it=20000):
+def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, crossing_constraint=True, max_it=20000):
     """
     Calculate a minimum spanning tree distance for a layout.
     Capacitated minimum spanning tree heuristics algorithm for Topfarm.
@@ -22,7 +22,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
     *option: Heuristic type. option=1 is Prim. option=2 is Kruskal. option=3 is Esau-Williams
     *max_it: Maximm number of iterations for the heuristics
     *UL: Upper limit for the max number of wind turbines connectable by the biggest available cable
-    *Inters_const=Bool. True is cable crossings are not allowed. False if they are allowed.
+    *crossing_constraint=Bool. True is cable crossings are not allowed. False if they are allowed.
 
     :return: T: Array. First column is first node, second column is second noce, third column is the distance between nodes
                        The OSS is always the node number 1. The WTs go from 2 to number of WTs plus one
@@ -88,7 +88,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
                         edges_tot[pos_potential_edge, 4] = edges_tot[pos_potential_edge, 2] + 10**50
                         edges_tot[pos_potential_edge - half, 4] = edges_tot[pos_potential_edge - half, 2] + 10**50
                 else:  # If capacity constraint not violated, then evaluate no-crossing cables constraint
-                    if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, Inters_const))):  # If no cables crossing, add the edge to the tree
+                    if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, crossing_constraint))):  # If no cables crossing, add the edge to the tree
                         mst_edges[pos_potential_edge] = True  # Add it to the tree. line 88 .m file
                         # Update node address
                         address_nodes[node2 - 1] = 1
@@ -151,7 +151,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
                         edges_tot[pos_potential_edge, 4] = edges_tot[pos_potential_edge, 2] + 10**50
                         edges_tot[pos_potential_edge - half, 4] = edges_tot[pos_potential_edge - half, 2] + 10**50
                 else:
-                    if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, Inters_const))):  # If no cables crossing, add the edge to the tree
+                    if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, crossing_constraint))):  # If no cables crossing, add the edge to the tree
                         mst_edges[pos_potential_edge] = True  # Add it to the tree. line 190 .m file
                         # Update node address
                         address_nodes[node1 - 1] = 1
@@ -222,7 +222,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
                             edges_tot[pos_potential_edge, 4] = edges_tot[pos_potential_edge, 2] + 10**50
                             edges_tot[pos_potential_edge - half, 4] = edges_tot[pos_potential_edge - half, 2] + 10**50
                     else:  # No violation of capacity constraint
-                        if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, Inters_const))):  # If no cables crossing, add the edge to the tree
+                        if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, crossing_constraint))):  # If no cables crossing, add the edge to the tree
                             mst_edges[pos_potential_edge] = True  # Add it to the tree. line 301 .m file
                             # Update node address
                             if address_nodes[node1 - 1] == 1:
@@ -290,7 +290,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
                             edges_tot[pos_potential_edge, 4] = edges_tot[pos_potential_edge, 2] + 10**50
                             edges_tot[pos_potential_edge - half, 4] = edges_tot[pos_potential_edge - half, 2] + 10**50
                     else:  # No violation of capacity constraint
-                        if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, Inters_const))):  # If no cables crossing, add the edge to the tree
+                        if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, crossing_constraint))):  # If no cables crossing, add the edge to the tree
                             mst_edges[pos_potential_edge] = True  # Add it to the tree. line 413 .m file
                             # Update node address
                             if address_nodes[node2 - 1] == 1:
@@ -355,7 +355,7 @@ def capacitated_spanning_tree(X=[], Y=[], option=3, UL=100, Inters_const=True, m
                         edges_tot[pos_potential_edge, 4] = edges_tot[pos_potential_edge, 2] + 10**50
                         edges_tot[pos_potential_edge - half, 4] = edges_tot[pos_potential_edge - half, 2] + 10**50
                 else:  # If no violation of the capacity constraint
-                    if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, Inters_const))):  # If no cables crossing, add the edge to the tree
+                    if (not(intersection_checker(pos_potential_edge, edges_tot, mst_edges, X, Y, crossing_constraint))):  # If no cables crossing, add the edge to the tree
                         mst_edges[pos_potential_edge] = True  # Add it to the tree. line 522 .m file
                         # Update weights and cost functions
                         if option == 1:
@@ -426,8 +426,8 @@ if __name__ == "__main__":
     Y = np.array(Y)
     option = 3
     UL = 15
-    Inters_const = True
-    T, feasible = capacitated_spanning_tree(X, Y, option, UL, Inters_const)
+    crossing_constraint = True
+    T, feasible = capacitated_spanning_tree(X, Y, option, UL, crossing_constraint)
 
     print("The total length of the solution is {value:.2f} m".format(value=sum(T[:, 2])))
     print("Feasibility: {feasible1}".format(feasible1=feasible))

@@ -23,7 +23,7 @@ def repairing_and_refining(x, y, Cables, oss, Cap_oss, rounding_coeff, time_limi
     wt = int(nodes - 1)
     num_neigh = round(rounding_coeff * wt)
     # Line below runs two-step heuristic with single OSS. Matrix 'edges' contains Node 1 (here are OSSs and WTs), Node 2 (only WTs), edge length, all zeros, all zeros. Matrix 'T' contains  Node 1 (OSSs and WTs), Node 2 (only WTs), length, cable, flow (# WTs), cost
-    edges, T, amount = collection_system(X=np.array(x), Y=np.array(y), option=3, UL=max(Cables[:, 1]), Inters_const=False, Cables=Cables, plot=make_plot)  # For multiple OSSs, just make sure 'edges' does not have connections between OSSs. First part always OSSs to WTs.
+    edges, T, amount = collection_system(X=np.array(x), Y=np.array(y), option=3, UL=max(Cables[:, 1]), crossing_constraint=False, Cables=Cables, plot=make_plot)  # For multiple OSSs, just make sure 'edges' does not have connections between OSSs. First part always OSSs to WTs.
     t_h = time.time()
     print('Total time in milisecods of the two-steps heuristic algorithm', 1000 * (t_h - t))
     # print(amount)

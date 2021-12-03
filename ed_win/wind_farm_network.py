@@ -121,7 +121,7 @@ def main():
                                         4734.32972738]])
         substation_positions = np.asarray([[0], [0]])
         settings = {'option': 3,
-                    'Inters_const': True,
+                    'crossing_constraint': True,
                     'max_it': 20000,
                     'repair': True}
         cables = np.array([[500, 3, 100000], [800, 5, 150000], [1000, 10, 250000]])

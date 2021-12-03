@@ -94,10 +94,10 @@ if __name__ == "__main__":
 
     option = 3
     UL = 11
-    Inters_const = False
+    crossing_constraint = False
     Cables = np.array([[500, 3, 100000], [800, 5, 150000], [1000, 10, 250000]])
 
-    T, feasible = capacitated_spanning_tree(X, Y, option, UL, Inters_const)
+    T, feasible = capacitated_spanning_tree(X, Y, option, UL, crossing_constraint)
 
     print("The total length of the solution is {value:.2f} m".format(value=sum(T[:, 2])))
     print("Feasibility: {feasible1}".format(feasible1=feasible))
