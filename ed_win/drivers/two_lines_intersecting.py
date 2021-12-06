@@ -8,7 +8,6 @@ Created on Tue Feb 11 13:33:46 2020
 import numpy as np
 import matplotlib.pylab as plt
 
-
 def two_lines_intersecting(line1, line2):
     """
     """
@@ -19,10 +18,11 @@ def two_lines_intersecting(line1, line2):
         x1 = [line1[0][0], line1[1][0]]
         y1 = [line1[0][1], line1[1][1]]
         # plt.figure()
-        # plt.plot(x1, y1, label = "line 1")
+        # plt.plot(x1, y1, 'r', label = "line 1", marker='x')
         x2 = [line2[0][0], line2[1][0]]
         y2 = [line2[0][1], line2[1][1]]
-        # plt.plot(x2, y2, label = "line 2")
+        # plt.plot(x2, y2, 'b', label = "line 2", marker='+')
+        # plt.legend()
 
         if (line1[1, 0] - line1[0, 0]) != 0:
             m1 = (line1[1, 1] - line1[0, 1]) / (line1[1, 0] - line1[0, 0])
@@ -84,7 +84,17 @@ def two_lines_intersecting(line1, line2):
                                     (line1[1, 0] - line2[1, 0]) < -1e-6) or
                                    ((line1[1, 0] - line2[1, 0]) > 1e-6 and
                                     (line1[1, 0] - line2[0, 0]) < -1e-6))
-                inside = isPointInside12 or isPointInside22
+
+                isPointInside21 = (((line2[0, 0] - line1[0, 0]) > 1e-6 and
+                                    (line2[0, 0] - line1[1, 0]) < -1e-6) or
+                                   ((line2[0, 0] - line1[1, 0]) > 1e-6 and
+                                    (line2[0, 0] - line1[0, 0]) < -1e-6))
+
+                isPointInside11 = (((line2[1, 0] - line1[0, 0]) > 1e-6 and
+                                    (line2[1, 0] - line1[1, 0]) < -1e-6) or
+                                   ((line2[1, 0] - line1[1, 0]) > 1e-6 and
+                                    (line2[1, 0] - line1[0, 0]) < -1e-6))
+                inside = isPointInside12 or isPointInside22 or isPointInside21 or isPointInside11
                 intersect = inside
 
         if (((m1 == np.inf) or (m1 == -np.inf)) or ((m2 == np.inf) or (m2 == -np.inf))):
@@ -164,12 +174,16 @@ def two_lines_intersecting(line1, line2):
 
 
 if __name__ == '__main__':
-    line1 = np.array([[1, 2], [3, 4]])  # The first column represents to x-values of the line segment line[0,0] y line[1,0]. The second column represents the y-values of
-    # the line segment
-    line2 = np.array([[1, 4], [3, 2]])
+    # line1 = np.array([[1, 2], [3, 4]])  # The first column represents to x-values of the line segment line[0,0] y line[1,0]. The second column represents the y-values of
+    # # the line segment
+    # line2 = np.array([[1, 4], [3, 2]])
 
-    line1 = np.random.rand(4).reshape((2, 2)) * 10 - 5
-    line2 = np.random.rand(4).reshape((2, 2)) * 10 - 5
+    # line1 = np.random.rand(4).reshape((2, 2)) * 10 - 5
+    # line2 = np.random.rand(4).reshape((2, 2)) * 10 - 5
+    line2 = np.asarray([[1000, 4000.        ],
+                      [   0,    0.        ]])
+    line1 = np.asarray([[ 500, 2000.        ],
+                      [   0.,            0.        ]])
 
 #    line1=np.array([[1,2],[7,2]])
 #    line2=np.array([[5,3],[5,1]])
